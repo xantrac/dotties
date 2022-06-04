@@ -18,8 +18,6 @@ lsp_installer.on_server_ready(function(server)
 
     if server.name == "eslint" then
         opts.on_attach = function (client, bufnr)
-            -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
-            -- the resolved capabilities of the eslint server ourselves!
             client.resolved_capabilities.document_formatting = true
             on_attach(client, bufnr)
         end
@@ -29,15 +27,10 @@ lsp_installer.on_server_ready(function(server)
 
 
     if server.name == "elixirls" then
-        opts.settings = { elixirLS = {
-            dialyzerEnabled = true,
-            fetchDeps = false
-        }}
-    end
-
-    if server.name == "elixirls" then
         opts.settings = {
-            autoformat = true
+            dialyzerEnabled = true,
+            fetchDeps = false,
+            autoformat = true,
         }
     end
 

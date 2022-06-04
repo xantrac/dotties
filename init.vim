@@ -1,12 +1,14 @@
 call plug#begin()
-    Plug 'tpope/vim-surround'
-    Plug 'tpope/vim-endwise'
-    Plug 'vim-ruby/vim-ruby'
-    Plug 'elixir-editors/vim-elixir'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-endwise'
     Plug 'tpope/vim-fugitive'
     Plug 'vim-airline/vim-airline'
+    Plug 'morhetz/gruvbox'
+    Plug 'knsh14/vim-github-link'
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+    Plug 'simrat39/rust-tools.nvim'
     let NERDTreeShowHidden=1
 
     Plug 'pangloss/vim-javascript'
@@ -14,9 +16,9 @@ call plug#begin()
     Plug 'lukas-reineke/indent-blankline.nvim'
     Plug 'tpope/vim-commentary'
     Plug 'editorconfig/editorconfig-vim'
-    Plug 'arcticicestudio/nord-vim'
     Plug 'preservim/nerdtree'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'norcalli/nvim-colorizer.lua'
 
     Plug 'neovim/nvim-lspconfig'
     Plug 'williamboman/nvim-lsp-installer',
@@ -31,11 +33,17 @@ call plug#begin()
     Plug 'saadparwaiz1/cmp_luasnip'
     Plug 'rafamadriz/friendly-snippets'
     Plug 'L3MON4D3/LuaSnip'
+
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'folke/trouble.nvim'
+    Plug 'kyazdani42/nvim-web-devicons'
+
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 
-
-colorscheme nord
-
+set termguicolors
+colorscheme gruvbox
 let mapleader = ","
 
 if has("nvim")
@@ -84,11 +92,20 @@ nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-b> :NERDTreeToggle<CR>
 nnoremap <C-n> :NERDTreeFind<CR>
 
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Files<cr>
+nnoremap <leader>fg <cmd>Rg<cr>
+nnoremap <leader>fb <cmd>Buffers<cr>
+
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap gR <cmd>TroubleToggle lsp_references<cr>
+
 nnoremap <Leader>r :source ~/.config/nvim/init.vim<CR>
 noremap <Leader>w :update<CR>
-nnoremap <silent> <C-p> :Files<CR>
-nnoremap <silent> <C-f> :Rg<CR>
-nnoremap <silent> <C-k> :Buffers<CR>
 tnoremap <Esc> <C-\><C-n>
 nnoremap <silent> <leader>cf :let @*=expand("%:p")<CR>
 
@@ -116,4 +133,10 @@ set completeopt=menu,menuone,noselect
 :lua require('lsp_installer')
 :lua require('lsp_config')
 :lua require('cmp_config')
+:lua require('tailwind_config')
+:lua require('trouble_config')
+:lua require('solargraph_config')
+:lua require('colorizer_config')
+:lua require('treesitter')
+:lua require('rust_config')
 
